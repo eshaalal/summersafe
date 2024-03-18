@@ -1,0 +1,58 @@
+<section class="book">
+    <div class="container flex_space">
+        <div class="text">
+            <h1> <span>Book </span> Your Rooms </h1>
+        </div>
+        <div class="form">
+            <form class="grid" id="bookingForm">
+                <input type="date" id="arrivalDate" placeholder="Arrival Date">
+                <input type="date" id="departureDate" placeholder="Departure Date">
+                <input type="number" id="luggages" placeholder="Luggage">
+                <label for="luggageSize">Luggage Size:</label>
+                <select id="luggageSize" multiple>
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
+                </select>
+                <input type="submit" value="CHECK AVAILABILITY">
+            </form>
+        </div>
+    </div>
+</section>
+
+<div id="totalPrice"></div>
+
+<script>
+    document.getElementById('bookingForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        calculatePrice();
+    });
+
+    function calculatePrice() {
+        const arrivalDate = document.getElementById('arrivalDate').value;
+        const departureDate = document.getElementById('departureDate').value;
+        const luggages = parseInt(document.getElementById('luggages').value) || 0;
+        const selectedSizes = Array.from(document.querySelectorAll('#luggageSize option:checked')).map(option => option.value);
+
+        let totalPrice = 0;
+
+        // Example pricing logic:
+        selectedSizes.forEach(size => {
+            let pricePerLuggage = 0;
+            switch (size) {
+                case 'small':
+                    pricePerLuggage = 10;
+                    break;
+                case 'medium':
+                    pricePerLuggage = 20;
+                    break;
+                case 'large':
+                    pricePerLuggage = 30;
+                    break;
+            }
+            totalPrice += luggages * pricePerLuggage;
+        });
+
+        document.getElementById('totalPrice').innerText = `Total Price: $${totalPrice}`;
+    }
+</script>
